@@ -1,0 +1,5 @@
+listener = threading.Thread(target= self.update_displays)
+                    listener.start()
+                    while True:
+                        self.msg_send(input("text: "))
+                        print(self.msg_receive())
