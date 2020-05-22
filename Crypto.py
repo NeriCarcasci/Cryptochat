@@ -1,9 +1,9 @@
 import os
 import Client
-import Server
-from Cryptodome.Cipher import AES
-from Cryptodome.Random import get_random_bytes
+#from Cryptodome.Cipher import AES
+#from Cryptodome.Random import get_random_bytes
 import subprocess
+
 
 class menu_option():
     def __init__(self, key, description, pointer, menu_id = 0):
@@ -17,7 +17,6 @@ class menu_option():
 class cryptographer:
     target_ip = None
     target_port = None
-    server_class = Server.Server()
     menu_array = []
     path_to_code = "C:\\Users\\neri\\Documents\\Coding\\Python\\Top_portfolio_projects\\Cryptochat\\Crypto.py"
 
@@ -61,33 +60,34 @@ class cryptographer:
     def get_ip(self):
         try: 
             self.target_ip = input("IP:")
-            self.chat_initialiser()
-            self.user_chooser("chat")
+
         except:
             print("External error: IP answer invalid")
-            self.chat_initialiser()
-            self.user_chooser("chat")
+
 
     def get_port(self):
         try: 
             self.target_port = int(input("PORT:"))
-            self.chat_initialiser()
-            self.user_chooser("chat")
+
         except:
             print("External error: PORT answer invalid")
-            self.chat_initialiser()
-            self.user_chooser("chat")
+
 
     def chat_connect(self):
 
         if self.target_ip != None and self.target_port != None:
-            print("Trying to connect..")
+            print("Initialising client")
             try:
-                self.client_class= Client.Client("192.168.30.95", self.target_port)
+                self.client_class = Client.Client("192.168.30.95", self.target_port)
             except:
-                print("Connection error ")
+                print("Internal error: Client failed to start")
         else:
-            print("External error: Input is Invalid")
+            print("Initialising client with default credentials")
+            try:
+                self.client_class = Client.Client()
+            except:
+                print("Internal error: Client failed to start")
+
         
     def clear_terminal(self):
         os.system('cls' if os.name == 'nt' else 'clear')
@@ -138,10 +138,10 @@ class cryptographer:
         print(translated)
 
     def message_decrypt(self, mes):
-        crypt_obj = AES.new("Exe3080kEyMrIa80", AES.MODE_CBC, "16 character vec")
-        try:
+        #crypt_obj = AES.new("Exe3080kEyMrIa80", AES.MODE_CBC, "16 character vec")
+        #try:
             msg_decrypted = crypt_obj.encrypt(mes)
-        except:
+        #except:
             print("Internal error: Incorrect key or unsuitable message supplied")
 
     def show_source_code(self):
@@ -170,6 +170,4 @@ class cryptographer:
         self.main_initialiser()
 
 crypto = cryptographer()
-
-
 
